@@ -18,7 +18,6 @@ public class Click : MonoBehaviour
         
     }
 
-    // Update is called once per frame
     void Update()
     {
         if (Input.GetButtonDown("Fire1"))
@@ -68,7 +67,6 @@ public class Click : MonoBehaviour
             canGo = false;
             nameText.enabled = false;
             hpText.enabled = false;
-            defText.enabled = false;
             atkText.enabled = false;
         }
         else
@@ -78,9 +76,6 @@ public class Click : MonoBehaviour
 
             hpText.enabled = true;
             hpText.text = "HP: " + ultimaCarta.GetComponent<Controller>().hp;
-
-            defText.enabled = true;
-            defText.text = "DEF: " + ultimaCarta.GetComponent<Controller>().def;
 
             atkText.enabled = true;
             atkText.text = "ATK: " + ultimaCarta.GetComponent<Controller>().atk;
