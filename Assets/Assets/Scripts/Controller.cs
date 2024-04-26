@@ -9,6 +9,8 @@ public class Controller : MonoBehaviour
     public int def = 0;
     public int hp = 0;
     public bool isHeld = false;
+    public bool isHovered = false;
+    public bool canChange = true;
     public Vector3 startPosition;
     void Start()
     {
@@ -22,7 +24,7 @@ public class Controller : MonoBehaviour
     {
         if (isHeld)
         {
-            transform.position = new Vector3(-1.58f, 4.15f, -11.92f);
+            transform.position = new Vector3(4.5f, 4.15f, -11.92f);
         }
     }
 

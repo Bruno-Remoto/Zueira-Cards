@@ -6,6 +6,8 @@ TagManager:
   tags:
   - Card
   - Rota
+  - Botao
+  - Compra
   layers:
   - Default
   - TransparentFX
