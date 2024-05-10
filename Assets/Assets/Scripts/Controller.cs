@@ -34,7 +34,7 @@ public class Controller : MonoBehaviour
         {
             GameObject.Find("GameManager").GetComponent<Manager>().cardPosition = startPosition;
             Destroy(gameObject);
-            print("Invocou Carta");
+            print("Invocou Carta com " + atk + " de ataque.");
         }
     }
 }

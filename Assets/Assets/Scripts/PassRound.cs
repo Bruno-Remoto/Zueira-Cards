@@ -20,7 +20,7 @@ public class PassRound : MonoBehaviour
 
     IEnumerator Voltar()
     {
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(0.25f);
         GameObject.Find("GameManager").GetComponent<Click>().canPass = true;
         transform.position = initialPos;
     }

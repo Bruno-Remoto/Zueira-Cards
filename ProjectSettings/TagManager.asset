@@ -8,6 +8,7 @@ TagManager:
   - Rota
   - Botao
   - Compra
+  - Posicoes
   layers:
   - Default
   - TransparentFX

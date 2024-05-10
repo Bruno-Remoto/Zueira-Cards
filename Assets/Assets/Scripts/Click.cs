@@ -30,17 +30,8 @@ public class Click : MonoBehaviour
                 {
 
                     local.collider.GetComponent<Controller>().startPosition = local.collider.transform.position;
-                    if (hoveredCarta != null && local.collider.gameObject != hoveredCarta)
+                    if (Input.GetButtonDown("Fire1"))
                     {
-                        hoveredCarta.GetComponent<Controller>().canChange = true;
-                        hoveredCarta.GetComponent<Controller>().isHovered = false;
-                        hoveredCarta.transform.position = Vector3.MoveTowards(hoveredCarta.transform.position, new Vector3(hoveredCarta.transform.position.x,
-                                                                                                                           hoveredCarta.transform.position.y - 0.7f,
-                                                                                                                           hoveredCarta.transform.position.z), 0.4f);
-                    }
-                    else if (Input.GetButtonDown("Fire1"))
-                    {
-                        print("Pegou Carta");
                         if (ultimaCarta == null)
                         {
                             local.collider.GetComponent<Controller>().isHeld = true;
@@ -65,9 +56,19 @@ public class Click : MonoBehaviour
                     {
                         hoveredCarta.GetComponent<Controller>().canChange = false;
                         hoveredCarta.GetComponent<Controller>().isHovered = false;
+                        hoveredCarta.GetComponent<Controller>().startPosition = hoveredCarta.transform.position;
                         hoveredCarta.transform.position = Vector3.MoveTowards(local.collider.transform.position, new Vector3(hoveredCarta.transform.position.x,
-                                                                                                                             hoveredCarta.transform.position.y + 0.7f,
-                                                                                                                             hoveredCarta.transform.position.z), 0.4f);
+                                                                                                                                 hoveredCarta.transform.position.y + 0.7f,
+                                                                                                                                 hoveredCarta.transform.position.z), 0.4f);
+                    }
+                    if (hoveredCarta != null && local.collider.gameObject != hoveredCarta)
+                    {
+                        hoveredCarta.GetComponent<Controller>().canChange = true;
+                        hoveredCarta.GetComponent<Controller>().isHovered = false;
+                        hoveredCarta.transform.position = Vector3.MoveTowards(hoveredCarta.transform.position, new Vector3(hoveredCarta.transform.position.x,
+                                                                                                                                       hoveredCarta.transform.position.y - 0.7f,
+                                                                                                                                       hoveredCarta.transform.position.z), 0.4f);
+                        hoveredCarta = null;
                     }
                     local.collider.GetComponent<Controller>().isHovered = true;
                     hoveredCarta = local.collider.gameObject;
@@ -75,9 +76,10 @@ public class Click : MonoBehaviour
                     {
                         local.collider.GetComponent<Controller>().canChange = false;
                         local.collider.GetComponent<Controller>().isHovered = false;
+                        hoveredCarta.GetComponent<Controller>().startPosition = hoveredCarta.transform.position;
                         local.collider.transform.position = Vector3.MoveTowards(local.collider.transform.position, new Vector3(hoveredCarta.transform.position.x,
-                                                                                                                               hoveredCarta.transform.position.y + 0.7f,
-                                                                                                                               hoveredCarta.transform.position.z), 0.4f);
+                                                                                                                                   hoveredCarta.transform.position.y + 0.7f,
+                                                                                                                                   hoveredCarta.transform.position.z), 0.4f);
                     }
                 }
                 else if (hoveredCarta != null && local.collider.gameObject != hoveredCarta)
@@ -85,9 +87,10 @@ public class Click : MonoBehaviour
                     hoveredCarta.GetComponent<Controller>().canChange = true;
                     hoveredCarta.GetComponent<Controller>().isHovered = false;
                     hoveredCarta.transform.position = Vector3.MoveTowards(hoveredCarta.transform.position, new Vector3(hoveredCarta.transform.position.x,
-                                                                                                                       hoveredCarta.transform.position.y - 0.7f,
-                                                                                                                       hoveredCarta.transform.position.z), 0.4f);
-                }
+                                                                                                                                   hoveredCarta.transform.position.y - 0.7f,
+                                                                                                                                   hoveredCarta.transform.position.z), 0.4f);
+                    hoveredCarta = null;
+            }
                 else if (local.collider.transform.tag == "Rota")
                 {
                     if (Input.GetButtonDown("Fire1"))
@@ -128,18 +131,24 @@ public class Click : MonoBehaviour
         }
         else
         {
-            nameText.enabled = true;
-            nameText.text = hoveredCarta.GetComponent<Controller>().cardName;
+            //nameText.enabled = true;
+            //nameText.text = hoveredCarta.GetComponent<Controller>().cardName;
             if (ultimaCarta != null)
                 nameText.text = ultimaCarta.GetComponent<Controller>().cardName;
 
-            hpText.enabled = true;
-            hpText.text = "HP: " + hoveredCarta.GetComponent<Controller>().hp;
+            if(hoveredCarta != null)
+            {
+                hpText.enabled = true;
+                hpText.text = "DEF: " + hoveredCarta.GetComponent<Controller>().hp;
+            }
             if (ultimaCarta != null)
-                hpText.text = "HP: " + ultimaCarta.GetComponent<Controller>().hp;
+                hpText.text = "DEF: " + ultimaCarta.GetComponent<Controller>().hp;
 
-            atkText.enabled = true;
-            atkText.text = "ATK: " + hoveredCarta.GetComponent<Controller>().atk;
+            if(hoveredCarta != null)
+            {
+                atkText.enabled = true;
+                atkText.text = "ATK: " + hoveredCarta.GetComponent<Controller>().atk;
+            }
             if (ultimaCarta != null)
                 atkText.text = "ATK: " + ultimaCarta.GetComponent<Controller>().atk;
         }

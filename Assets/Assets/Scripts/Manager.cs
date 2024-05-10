@@ -7,13 +7,14 @@ public class Manager : MonoBehaviour
     public GameObject card;
     GameObject cardBuy;
     GameObject[] cartas;
+    GameObject[] posicoes;
     public Vector3 cardPosition;
 
     void Start()
     {
         cartas = GameObject.FindGameObjectsWithTag("Card");
-        print(cartas.Length);
-        cardBuy = GameObject.Find("Comprar");
+        posicoes = GameObject.FindGameObjectsWithTag("Posicoes");
+        cardBuy = GameObject.FindGameObjectWithTag("Compra");
     }
 
     void Update()
@@ -23,20 +24,14 @@ public class Manager : MonoBehaviour
 
     public void Buy()
     {
-        if(cartas.Length <= 5)
+        for(int index = 0; index < 5; index++)
         {
-            foreach (GameObject carta in cartas)
+            if(cartas[index] == null)
             {
-                int index = 0;
-                if(carta != null)
-                {
-                    GameObject comprada = Instantiate(card, cardBuy.transform);
-                    comprada.transform.localScale = new Vector3(2.7678f, 0.154533f, 5.366488f);
-                    comprada.transform.position = Vector3.MoveTowards(comprada.transform.position, cardPosition, 10f);
-                    cartas[index] = comprada;
-                    return;
-                }
-                index++;
+                GameObject comprada = Instantiate(card);
+                comprada.transform.position = posicoes[index].transform.position;
+                cartas[index] = comprada;
+                return;
             }
         }
     }
