@@ -32,6 +32,7 @@ public class Controller : MonoBehaviour
     {
         if (collision.transform.tag == "Rota")
         {
+            GameObject.Find("GameManager").GetComponent<Manager>().cardPosition = startPosition;
             Destroy(gameObject);
             print("Invocou Carta");
         }

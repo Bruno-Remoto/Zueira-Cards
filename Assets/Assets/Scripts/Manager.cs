@@ -7,18 +7,13 @@ public class Manager : MonoBehaviour
     public GameObject card;
     GameObject cardBuy;
     GameObject[] cartas;
-    Vector3[] cardPositions;
+    public Vector3 cardPosition;
 
     void Start()
     {
         cartas = GameObject.FindGameObjectsWithTag("Card");
+        print(cartas.Length);
         cardBuy = GameObject.Find("Comprar");
-        foreach (GameObject carta in cartas)
-        {
-            int index = 0;
-            cardPositions[index] = carta.transform.position;
-            index++;
-        }
     }
 
     void Update()
@@ -37,7 +32,8 @@ public class Manager : MonoBehaviour
                 {
                     GameObject comprada = Instantiate(card, cardBuy.transform);
                     comprada.transform.localScale = new Vector3(2.7678f, 0.154533f, 5.366488f);
-                    comprada.transform.position = Vector3.MoveTowards(comprada.transform.position, cardPositions[index], 0.5f);
+                    comprada.transform.position = Vector3.MoveTowards(comprada.transform.position, cardPosition, 10f);
+                    cartas[index] = comprada;
                     return;
                 }
                 index++;

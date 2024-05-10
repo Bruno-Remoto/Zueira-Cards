@@ -28,8 +28,17 @@ public class Click : MonoBehaviour
             {
                 if (local.collider.transform.tag == "Card")
                 {
+
                     local.collider.GetComponent<Controller>().startPosition = local.collider.transform.position;
-                    if (Input.GetButtonDown("Fire1"))
+                    if (hoveredCarta != null && local.collider.gameObject != hoveredCarta)
+                    {
+                        hoveredCarta.GetComponent<Controller>().canChange = true;
+                        hoveredCarta.GetComponent<Controller>().isHovered = false;
+                        hoveredCarta.transform.position = Vector3.MoveTowards(hoveredCarta.transform.position, new Vector3(hoveredCarta.transform.position.x,
+                                                                                                                           hoveredCarta.transform.position.y - 0.7f,
+                                                                                                                           hoveredCarta.transform.position.z), 0.4f);
+                    }
+                    else if (Input.GetButtonDown("Fire1"))
                     {
                         print("Pegou Carta");
                         if (ultimaCarta == null)
@@ -71,7 +80,7 @@ public class Click : MonoBehaviour
                                                                                                                                hoveredCarta.transform.position.z), 0.4f);
                     }
                 }
-                else if (hoveredCarta != null && local.collider.gameObject != hoveredCarta && hoveredCarta.GetComponent<Controller>().isHovered)
+                else if (hoveredCarta != null && local.collider.gameObject != hoveredCarta)
                 {
                     hoveredCarta.GetComponent<Controller>().canChange = true;
                     hoveredCarta.GetComponent<Controller>().isHovered = false;
@@ -92,7 +101,7 @@ public class Click : MonoBehaviour
                 {
                     if (Input.GetButtonDown("Fire1"))
                     {
-                        //GameObject.Find("GameManager").GetComponent<Manager>().Buy();
+                        GameObject.Find("GameManager").GetComponent<Manager>().Buy();
                     }
                 }
                 else if (local.collider.transform.tag == "Botao" && canPass)
