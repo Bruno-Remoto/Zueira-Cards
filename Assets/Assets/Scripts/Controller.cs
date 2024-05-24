@@ -8,6 +8,7 @@ public class Controller : MonoBehaviour
     public int atk = 0;
     public int def = 0;
     public int hp = 0;
+    public int team = 1;
     public bool isHeld = false;
     public bool isHovered = false;
     public bool canChange = true;
@@ -18,6 +19,14 @@ public class Controller : MonoBehaviour
         atk = Random.Range(1, 6);
         def = Random.Range(0, 6);
         hp = Random.Range(5, 11);
+        if(team == 1)
+        {
+            GetComponent<Material>().color = Color.blue;
+        }
+        else if(team == 2)
+        {
+            GetComponent<Material>().color = Color.red;
+        }
     }
 
     void Update()
@@ -35,6 +44,15 @@ public class Controller : MonoBehaviour
             GameObject.Find("GameManager").GetComponent<Manager>().cardPosition = startPosition;
             Destroy(gameObject);
             print("Invocou Carta com " + atk + " de ataque.");
+
+            if(team == 1)
+            {
+                collision.gameObject.GetComponent<Routes>().atkTeam1 += atk;
+            }
+            else
+            {
+                collision.gameObject.GetComponent<Routes>().atkTeam2 += atk;
+            }
         }
     }
 }
