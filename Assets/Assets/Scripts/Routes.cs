@@ -7,6 +7,9 @@ public class Routes : MonoBehaviour
     public int atkTeam1;
     public int atkTeam2;
 
+    public int hpTeam1 = 5;
+    public int hpTeam2 = 5;
+
     PointManager ptsManager;
 
     void Start()
@@ -14,25 +17,49 @@ public class Routes : MonoBehaviour
         ptsManager = GameObject.Find("GameManager").GetComponent<PointManager>();
     }
 
-    // Update is called once per frame
-    void Update()
+    private void Update()
     {
-        
+        if(atkTeam1 < 0)
+        {
+            atkTeam1 = 0;
+        }
+        if (atkTeam2 < 0)
+        {
+            atkTeam2 = 0;
+        }
     }
 
-    public void OnRoundEnd()
+    public IEnumerator OnRoundEnd()
     {
-        if(atkTeam1 > atkTeam2)
+        yield return new WaitForSeconds(0.1f);
+        hpTeam1 -= atkTeam2;
+        hpTeam2 -= atkTeam1;
+
+        if(hpTeam1 == hpTeam2 && hpTeam1 <= 0)
         {
-            ptsManager.hpTeam2--;
+            print("Empate em uma rota");
         }
-        else if(atkTeam1 < atkTeam2)
+        else if(hpTeam1 <= 0)
         {
-            ptsManager.hpTeam1--;
+            ptsManager.ptsTeam2++;
+            print("Team 2 Ganhou uma rota");
+        }
+        else if(hpTeam2 <= 0)
+        {
+            ptsManager.ptsTeam1++;
+            print("Team 1 Ganhou uma rota");
         }
         else
         {
-            print("Empatou");
+            OnRoundEnd();
         }
+    }
+
+    public void Reset()
+    {
+        hpTeam1 = 0;
+        hpTeam2 = 0;
+        atkTeam1 = 0;
+        atkTeam2 = 0;
     }
 }
