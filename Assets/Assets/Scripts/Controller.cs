@@ -20,10 +20,23 @@ public class Controller : MonoBehaviour
     public GameObject cardSpawn;
     void Start()
     {
-        tipoCarta = Random.Range(1, 3);
+        ChooseCard();
         CompareTeam();
-        
+    }
 
+    void ChooseCard()
+    {
+        cardSpawn = GameObject.Find("Game Manager").GetComponent<CardStatics>().cardStatics[1];
+        //int randomIndex = Random.Range(0, 8);
+        /*if (GameObject.Find("Game Manager").GetComponent<CardStatics>().cardStatics[randomIndex] != null)
+        {
+
+        }
+        else
+        {
+            print("Tried Inexistant Card");
+            ChooseCard();
+        }*/
     }
 
     public void CompareTeam()
@@ -66,13 +79,29 @@ public class Controller : MonoBehaviour
         {
             GameObject.Find("GameManager").GetComponent<Manager>().cardPosition = startPosition;
             Destroy(gameObject);
+            GameObject spawned = Instantiate(cardSpawn, transform.position, Quaternion.identity);
+            if(spawned.GetComponent<Attacker>() != null)
+            {
+                spawned.GetComponent<Attacker>().team = team;
+            }
+            Routes RouteScript = collision.gameObject.GetComponent<Routes>();
             if(team == 1)
             {
-                
-            }
-            else
-            {
-                
+                if (RouteScript.AttackerTeam1 == null)
+                    RouteScript.AttackerTeam1 = spawned;
+                else
+                {
+                    int index = 0;
+                    foreach (GameObject card in RouteScript.Team1Cards)
+                    {
+                        if(card == null)
+                        {
+                            RouteScript.Team1Cards[index] = spawned;
+                        }
+                        index++;
+                    }
+                }
+
             }
         }
     }

@@ -24,7 +24,7 @@ public class Attacker : MonoBehaviour
         
     }
 
-    public float CalculateHitDamage(string typeOpponent)
+    public float CalculateHitDamage()
     {
         float buffedDmg = cardDamage + extraTypeDmg + extraBuffDmg;
 
@@ -32,7 +32,7 @@ public class Attacker : MonoBehaviour
         return finalDmg;
     }
     
-    public bool TakeDamageAndCheckDeath(int damageTaken)
+    public bool TakeDamageAndCheckDeath(float damageTaken)
     {
         hp -= damageTaken;
         bool isDead = false;
@@ -81,7 +81,7 @@ public class Attacker : MonoBehaviour
     void Die() {
         Destroy(gameObject);
     }
-    void CompareType(string typeOpponent)
+    public void CompareType(string typeOpponent)
     {
         extraTypeDmg = 0;
         if(type == "Fe")
