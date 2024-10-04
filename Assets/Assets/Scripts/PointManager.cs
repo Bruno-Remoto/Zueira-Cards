@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class PointManager : MonoBehaviour
@@ -19,11 +20,16 @@ public class PointManager : MonoBehaviour
 
     public Text txtEmpate;
 
+    public Text Vidas1;
+    public Text Vidas2;
+
     public int ptsTeam1;
     public int ptsTeam2;
 
-    public int hpTeam1 = 5;
-    public int hpTeam2 = 5;
+    static public int hpTeam1 = 4;
+    static public int manaTeam1 = 10;
+    static public int hpTeam2 = 4;
+    static public int manaTeam2 = 10;
     void Start()
     {
         txtGanhou1.enabled = false;
@@ -36,20 +42,23 @@ public class PointManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        Vidas1.text = "Vidas Time 1: " + hpTeam1;
+        Vidas2.text = "Vidas Time 2: " + hpTeam2;
     }
     public void EncerrarRound()
     {
-        StartCoroutine(rota1.GetComponent<Routes>().OnRoundEnd());
-        StartCoroutine(rota2.GetComponent<Routes>().OnRoundEnd());
-        StartCoroutine(rota3.GetComponent<Routes>().OnRoundEnd());
-        StartCoroutine(rota4.GetComponent<Routes>().OnRoundEnd());
-        StartCoroutine(rota5.GetComponent<Routes>().OnRoundEnd());
+        //rota1.GetComponent<Routes>().OnRoundEnd();
+        //rota2.GetComponent<Routes>().OnRoundEnd();
+        //rota3.GetComponent<Routes>().OnRoundEnd();
+        //rota4.GetComponent<Routes>().OnRoundEnd();
+        //rota5.GetComponent<Routes>().OnRoundEnd();
     }
 
     public IEnumerator CalcularPts()
     {
         yield return new WaitForSeconds(1);
+        print("pts Team 1: " +  ptsTeam1);
+        print("pts Team 2:" + ptsTeam2);
         if(ptsTeam1 > ptsTeam2)
         {
             hpTeam2--;
@@ -76,6 +85,7 @@ public class PointManager : MonoBehaviour
             txtGanhou2.enabled = false;
             txtWin2.enabled = true;
             StartCoroutine(Hide1Sec(txtWin2));
+            StartCoroutine(WaitToLoadMenu());
         }
         else if(hpTeam2 <= 0)
         {
@@ -83,19 +93,26 @@ public class PointManager : MonoBehaviour
             txtGanhou1.enabled = false;
             txtWin1.enabled = true;
             StartCoroutine(Hide1Sec(txtWin1));
+            StartCoroutine(WaitToLoadMenu());
         }
         ptsTeam1 = 0;
         ptsTeam2 = 0;
-        rota1.GetComponent<Routes>().Reset();
-        rota2.GetComponent<Routes>().Reset();
-        rota3.GetComponent<Routes>().Reset();
-        rota4.GetComponent<Routes>().Reset();
-        rota5.GetComponent<Routes>().Reset();
+        //rota1.GetComponent<Routes>().Reset();
+        //rota2.GetComponent<Routes>().Reset();
+        //rota3.GetComponent<Routes>().Reset();
+        //rota4.GetComponent<Routes>().Reset();
+        //rota5.GetComponent<Routes>().Reset();
     }
 
     IEnumerator Hide1Sec(Text txt)
     {
         yield return new WaitForSeconds(3);
         txt.enabled = false;
+    }
+
+    IEnumerator WaitToLoadMenu()
+    {
+        yield return new WaitForSeconds(3.1f);
+        SceneManager.LoadScene("Menu");
     }
 }

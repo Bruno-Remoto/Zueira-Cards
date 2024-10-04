@@ -16,32 +16,27 @@ public class Controller : MonoBehaviour
     public bool isHovered = false;
     public bool canChange = true;
     public Vector3 startPosition;
+    public GameObject cardPos;
+    public GameObject cardSpawn;
     void Start()
     {
         tipoCarta = Random.Range(1, 3);
-        team = Random.Range(1, 3);
-        if(tipoCarta == 1) // Carta de Ataque
-        {
-            cardName = "Guerreiro";
-            atk = Random.Range(1, 6);
-            def = Random.Range(0, 6);
-            hp = Random.Range(5, 11);
-        }
-        else if(tipoCarta == 2) // Carta de Terreno
-        {
-            cardName = "Terreno";
-            atk = Random.Range(1, 6);
-        }
+        CompareTeam();
+        
 
-        if(team == 1)
+    }
+
+    public void CompareTeam()
+    {
+        if (team == 1)
         {
-            if(gameObject != null)
+            if (gameObject != null)
             {
                 GetComponent<Renderer>().material.color = Color.blue;
             }
         }
 
-        else if(team == 2)
+        else if (team == 2)
         {
             if (gameObject != null)
             {
@@ -54,7 +49,14 @@ public class Controller : MonoBehaviour
     {
         if (isHeld)
         {
-            transform.position = new Vector3(4.5f, 4.15f, -11.92f);
+            if(team == 1)
+            {
+                transform.position = new Vector3(4.5f, 4.15f, -11.92f);
+            }
+            else
+            {
+                transform.position = new Vector3(-6.51f, 4.15f, 13.65f);
+            }
         }
     }
 
@@ -66,31 +68,11 @@ public class Controller : MonoBehaviour
             Destroy(gameObject);
             if(team == 1)
             {
-                if(tipoCarta == 1)
-                {
-                    print("Invocou Guerreiro com " + atk + " de ataque.");
-                    collision.gameObject.GetComponent<Routes>().atkTeam1 += atk;
-                    collision.gameObject.GetComponent<Routes>().hpTeam1 += hp;
-                }
-                else
-                {
-                    print("Invocou Terreno com " + atk + " de debuff.");
-                    collision.gameObject.GetComponent<Routes>().atkTeam2 -= atk;
-                }
+                
             }
             else
             {
-                if (tipoCarta == 1)
-                {
-                    print("Invocou Guerreiro com " + atk + " de ataque.");
-                    collision.gameObject.GetComponent<Routes>().atkTeam2 += atk;
-                    collision.gameObject.GetComponent<Routes>().hpTeam2 += hp;
-                }
-                else
-                {
-                    print("Invocou Terreno com " + atk + " de debuff.");
-                    collision.gameObject.GetComponent<Routes>().atkTeam1 -= atk;
-                }
+                
             }
         }
     }

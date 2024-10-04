@@ -8,6 +8,8 @@ public class Click : MonoBehaviour
 {
     public GameObject ultimaCarta;
     public GameObject hoveredCarta;
+
+    public CameraControl CamControl;
     Vector3 vaila;
     bool canGo = false;
     public bool canPass = true;
@@ -34,7 +36,68 @@ public class Click : MonoBehaviour
                 RouteAtk1Text.enabled = false;
                 RouteHp2Text.enabled = false;
                 RouteAtk2Text.enabled = false;
-                if (local.collider.transform.tag == "Card")
+                if (local.collider.transform.tag == "Card1")
+                {
+                    if (CamControl.isP1 == true)
+                    {
+                        if (Input.GetButtonDown("Fire1"))
+                        {
+                            if (ultimaCarta == null)
+                            {
+                                local.collider.GetComponent<Controller>().startPosition = local.collider.transform.position;
+                                local.collider.GetComponent<Controller>().isHeld = true;
+                                ultimaCarta = local.collider.gameObject;
+                            }
+                            else if (ultimaCarta != local.collider.gameObject)
+                            {
+                                ultimaCarta.GetComponent<Controller>().isHeld = false;
+                                ultimaCarta.transform.position = ultimaCarta.GetComponent<Controller>().startPosition;
+                                local.collider.GetComponent<Controller>().startPosition = local.collider.transform.position;
+                                local.collider.GetComponent<Controller>().isHeld = true;
+                                ultimaCarta = local.collider.gameObject;
+                            }
+                            else if (ultimaCarta == local.collider.gameObject)
+                            {
+                                ultimaCarta.GetComponent<Controller>().isHeld = false;
+                                ultimaCarta.transform.position = ultimaCarta.GetComponent<Controller>().startPosition;
+                                ultimaCarta = null;
+                            }
+                        }
+                        if(hoveredCarta != null)
+                        {
+                            if (local.collider.GetComponent<Controller>().isHovered && local.collider.GetComponent<Controller>().canChange)
+                            {
+                                hoveredCarta.GetComponent<Controller>().canChange = false;
+                                hoveredCarta.GetComponent<Controller>().isHovered = false;
+                                hoveredCarta.transform.position = Vector3.MoveTowards(local.collider.transform.position, new Vector3(hoveredCarta.GetComponent<Controller>().cardPos.transform.position.x,
+                                                                                                                                         hoveredCarta.GetComponent<Controller>().cardPos.transform.position.y + 0.7f,
+                                                                                                                                         hoveredCarta.GetComponent<Controller>().cardPos.transform.position.z), 0.4f);
+                            }
+                            if (local.collider.gameObject != hoveredCarta)
+                            {
+                                hoveredCarta.GetComponent<Controller>().canChange = true;
+                                hoveredCarta.GetComponent<Controller>().isHovered = false;
+                                hoveredCarta.transform.position = Vector3.MoveTowards(hoveredCarta.transform.position, new Vector3(hoveredCarta.GetComponent<Controller>().cardPos.transform.position.x,
+                                                                                                                                        hoveredCarta.GetComponent<Controller>().cardPos.transform.position.y - 0.7f,
+                                                                                                                                        hoveredCarta.GetComponent<Controller>().cardPos.transform.position.z), 0.4f);
+                                hoveredCarta = null;
+                            }
+                        }
+                        local.collider.GetComponent<Controller>().isHovered = true;
+                        hoveredCarta = local.collider.gameObject;
+                        if (hoveredCarta == null && local.collider.GetComponent<Controller>().isHovered && local.collider.GetComponent<Controller>().canChange)
+                        {
+                            local.collider.GetComponent<Controller>().canChange = false;
+                            local.collider.GetComponent<Controller>().isHovered = false;
+                            local.collider.transform.position = Vector3.MoveTowards(local.collider.transform.position, new Vector3(hoveredCarta.GetComponent<Controller>().cardPos.transform.position.x,
+                                                                                                                                       hoveredCarta.GetComponent<Controller>().cardPos.transform.position.y + 0.7f,
+                                                                                                                                       hoveredCarta.GetComponent<Controller>().cardPos.transform.position.z), 0.4f);
+                        }
+                    }
+                }
+            if (local.collider.transform.tag == "Card2")
+            {
+                if (CamControl.isP1 == false)
                 {
                     if (Input.GetButtonDown("Fire1"))
                     {
@@ -59,23 +122,23 @@ public class Click : MonoBehaviour
                             ultimaCarta = null;
                         }
                     }
-                    if(hoveredCarta != null)
+                    if (hoveredCarta != null)
                     {
                         if (local.collider.GetComponent<Controller>().isHovered && local.collider.GetComponent<Controller>().canChange)
                         {
                             hoveredCarta.GetComponent<Controller>().canChange = false;
                             hoveredCarta.GetComponent<Controller>().isHovered = false;
-                            hoveredCarta.transform.position = Vector3.MoveTowards(local.collider.transform.position, new Vector3(hoveredCarta.transform.position.x,
-                                                                                                                                     hoveredCarta.transform.position.y + 0.7f,
-                                                                                                                                     hoveredCarta.transform.position.z), 0.4f);
+                            hoveredCarta.transform.position = Vector3.MoveTowards(local.collider.transform.position, new Vector3(hoveredCarta.GetComponent<Controller>().cardPos.transform.position.x,
+                                                                                                                                     hoveredCarta.GetComponent<Controller>().cardPos.transform.position.y + 0.7f,
+                                                                                                                                     hoveredCarta.GetComponent<Controller>().cardPos.transform.position.z), 0.4f);
                         }
                         if (local.collider.gameObject != hoveredCarta)
                         {
                             hoveredCarta.GetComponent<Controller>().canChange = true;
                             hoveredCarta.GetComponent<Controller>().isHovered = false;
-                            hoveredCarta.transform.position = Vector3.MoveTowards(hoveredCarta.transform.position, new Vector3(hoveredCarta.transform.position.x,
-                                                                                                                                    hoveredCarta.transform.position.y - 0.7f,
-                                                                                                                                    hoveredCarta.transform.position.z), 0.4f);
+                            hoveredCarta.transform.position = Vector3.MoveTowards(hoveredCarta.transform.position, new Vector3(hoveredCarta.GetComponent<Controller>().cardPos.transform.position.x,
+                                                                                                                                    hoveredCarta.GetComponent<Controller>().cardPos.transform.position.y - 0.7f,
+                                                                                                                                    hoveredCarta.GetComponent<Controller>().cardPos.transform.position.z), 0.4f);
                             hoveredCarta = null;
                         }
                     }
@@ -85,46 +148,52 @@ public class Click : MonoBehaviour
                     {
                         local.collider.GetComponent<Controller>().canChange = false;
                         local.collider.GetComponent<Controller>().isHovered = false;
-                        local.collider.transform.position = Vector3.MoveTowards(local.collider.transform.position, new Vector3(hoveredCarta.transform.position.x,
-                                                                                                                                   hoveredCarta.transform.position.y + 0.7f,
-                                                                                                                                   hoveredCarta.transform.position.z), 0.4f);
+                        local.collider.transform.position = Vector3.MoveTowards(local.collider.transform.position, new Vector3(hoveredCarta.GetComponent<Controller>().cardPos.transform.position.x,
+                                                                                                                                   hoveredCarta.GetComponent<Controller>().cardPos.transform.position.y + 0.7f,
+                                                                                                                                   hoveredCarta.GetComponent<Controller>().cardPos.transform.position.z), 0.4f);
                     }
                 }
-                else if (hoveredCarta != null && local.collider.gameObject != hoveredCarta)
+            }
+            else if (hoveredCarta != null && local.collider.gameObject != hoveredCarta)
                 {
                     hoveredCarta.GetComponent<Controller>().canChange = true;
                     hoveredCarta.GetComponent<Controller>().isHovered = false;
-                    hoveredCarta.transform.position = Vector3.MoveTowards(hoveredCarta.transform.position, new Vector3(hoveredCarta.transform.position.x,
-                                                                                                                                   hoveredCarta.transform.position.y - 0.7f,
-                                                                                                                                   hoveredCarta.transform.position.z), 0.4f);
+                    hoveredCarta.transform.position = Vector3.MoveTowards(hoveredCarta.transform.position, new Vector3(hoveredCarta.GetComponent<Controller>().cardPos.transform.position.x,
+                                                                                                                                   hoveredCarta.GetComponent<Controller>().cardPos.transform.position.y - 0.7f,
+                                                                                                                                   hoveredCarta.GetComponent<Controller>().cardPos.transform.position.z), 0.4f);
                     hoveredCarta = null;
                 }
                 else if (local.collider.transform.tag == "Rota")
                 {
-                    RouteHp1Text.enabled = true;
-                    RouteHp1Text.text = "Hp Team 1: " + local.collider.GetComponent<Routes>().hpTeam1;
-                    RouteAtk1Text.enabled = true;
-                    RouteAtk1Text.text = "Atk Team 1: " + local.collider.GetComponent<Routes>().atkTeam1;
-
-                    RouteHp2Text.enabled = true;
-                    RouteHp2Text.text = "Hp Team 2: " + local.collider.GetComponent<Routes>().hpTeam2;
-                    RouteAtk2Text.enabled = true;
-                    RouteAtk2Text.text = "Atk Team 2: " + local.collider.GetComponent<Routes>().atkTeam2;
+                    
                     if (Input.GetButtonDown("Fire1"))
                     {
                         ultimaCarta.GetComponent<Controller>().isHeld = false;
-                        canGo = true;
                         vaila = local.collider.transform.position;
+                        canGo = true;
                     }
                 }
-                else if (local.collider.transform.tag == "Compra")
+                else if (local.collider.tag == "Compra1")
                 {
-                    if (Input.GetButtonDown("Fire1"))
+                    if (CamControl.isP1)
                     {
-                        GameObject.Find("GameManager").GetComponent<Manager>().Buy();
+                        if (Input.GetButtonDown("Fire1"))
+                        {
+                            GameObject.Find("GameManager").GetComponent<Manager>().Buy1();
+                        }
                     }
                 }
-                else if (local.collider.transform.tag == "Botao" && canPass)
+                else if (local.collider.tag == "Compra2")
+                {
+                    if (CamControl.isP1 == false)
+                    {
+                        if (Input.GetButtonDown("Fire1"))
+                        {
+                            GameObject.Find("GameManager").GetComponent<Manager>().Buy2();
+                        }
+                    }
+                }
+            else if (local.collider.transform.tag == "Botao" && canPass)
                 {
                     if (Input.GetButtonDown("Fire1"))
                     {
@@ -132,7 +201,6 @@ public class Click : MonoBehaviour
                         local.collider.transform.position = Vector3.MoveTowards(local.collider.transform.position, new Vector3(local.collider.transform.position.x,
                                                                                                                                local.collider.transform.position.y - 0.5f,
                                                                                                                                local.collider.transform.position.z), 0.3f);
-
                         GameObject.Find("GameManager").GetComponent<PointManager>().EncerrarRound();
                         StartCoroutine(GameObject.Find("GameManager").GetComponent<PointManager>().CalcularPts());
                     }

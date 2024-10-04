@@ -9,6 +9,12 @@ TagManager:
   - Botao
   - Compra
   - Posicoes
+  - Card1
+  - Card2
+  - Compra1
+  - Posicao1
+  - Compra2
+  - Posicao2
   layers:
   - Default
   - TransparentFX
